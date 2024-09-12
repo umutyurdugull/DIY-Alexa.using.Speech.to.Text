@@ -77,7 +77,6 @@ def unfunnyDadJokes():
     "Milk is the fastest liquid on earth. It's pasteurized before you even see it!",
     "Struggling to think of what to buy someone for Christmas? Get them a fridge and watch their face light up when they open it."
 ]
-    
     rand = random.randint(0, len(jokes) - 1)
     printedJoke = jokes[rand] 
     print(printedJoke)
@@ -85,10 +84,10 @@ def unfunnyDadJokes():
     
 
 def calculate():
-    a  = int(input("Bir sayi giriniz : "))    
     SpeakText("Please enter a number  ")
-    b = int(input("Bir sayı daha giriniz : "))
+    a  = int(input("Bir sayi giriniz : "))    
     SpeakText("Please enter another number ")
+    b = int(input("Bir sayi daha giriniz : "))
     sum = a + b
     abssub = abs(a-b)
     if(b != 0):
@@ -98,18 +97,34 @@ def calculate():
         SpeakText("You can't divide to 0")
     multiply = a * b
     power = pow(a,b)
-    
+    print(f"Summary = {sum} , Absolute value is {abssub} , Division {division} , Multiply {multiply} and power is {power}")
     SpeakText(f"Summary = {sum} , Absolute value is {abssub} , Division {division} , Multiply {multiply} and power is {power}")
-    
+
+
+def headortails():
+    result = random.randint(1,2)
+    computerChoice = random.randint(1,2)
+    if(computerChoice == 1):
+        SpeakText("I choose Head!")
+        print("Ben yaziyi sectim")
+    elif(computerChoice == 2):
+        SpeakText("I choose Tails")
+        print("Ben turayi sectim")
+    if(result == 1):
+        SpeakText("Result is Head!")
+        print("!")
+    elif(result == 2):
+        SpeakText("Result is Tails")    
+        print("Result is Tails")
+    if(computerChoice == result):
+        print("Bilgisayar kazandi")        
+        SpeakText("Computer wins")
 def get_weather():
     try:
         with sr.Microphone() as source2:
             SpeakText("Please say the city name.")
             print("Lütfen şehir adını söyleyin:")
-            r.adjust_for_ambient_noise(source2, duration=0.2)
-            audio2 = r.listen(source2)
-            city = r.recognize_google(audio2)
-            city = city.lower()
+            city = input("Sehir adi ")
             print(f"Şehir: {city}")
             SpeakText(f"Fetching the weather for {city}.")
             
@@ -141,13 +156,13 @@ def Main():
         try:
             with sr.Microphone() as source2:
                 r.adjust_for_ambient_noise(source2, duration=0.2)
-                print("Lütfen komut verin: Weather , Calculator , Joke")
-                SpeakText("Please say Weather, Calculator, Joke.")
+                print("Lütfen komut verin: Weather , Calculator , Joke, TOSS")
+                SpeakText("Please say Weather, Calculator, ,Toss Joke.")
                 audio2 = r.listen(source2)
                 MyText = r.recognize_google(audio2)
                 MyText = MyText.lower()
 
-                print("Did you say: ", MyText)
+                print("Bunu mu dediniz : ", MyText)
                 SpeakText("You said " + MyText)
 
                 if "weather" in MyText:
@@ -158,14 +173,16 @@ def Main():
                     calculate()
                 elif "joke" in MyText:
                     SpeakText("You selected option Joke.")
-                    print("Option THREE is selected.")
                     unfunnyDadJokes()
+                elif "toss" in MyText:
+                    SpeakText("You selected head or tails game")
+                    headortails()
                 else:
                     SpeakText("Invalid command, please say Weather, Calculator  or Joke.")
                     
         except sr.RequestError as e:
             print("Could not request results; {0}".format(e))        
         except sr.UnknownValueError:
-            print("Unknown error occurred")
+            print("Bilinmeyen bir hata olustu")
             SpeakText("Sorry, I didn't catch that. Please try again.")
 Main()
